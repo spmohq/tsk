@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Create Your Lead Magnet</title>
+    <link rel="icon" href="spm.ico" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .content-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            box-sizing: border-box;
+        }
+        .content-box h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .content-box p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .content-box strong {
+            color: #34495e;
+        }
+        .prompt-container {
+            background-color: #eef1f3;
+            border: 1px solid #d4dde3;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 0.9em;
+        }
+        .copy-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .copy-button:hover {
+            background-color: #2980b9;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: center;
+            padding: 15px 10px;
+            font-size: 0.9em;
+            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+            margin-top: auto; /* Pushes the footer to the bottom */
+        }
+        .footer p {
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            .content-box {
+                padding: 20px;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>How to Create Your Lead Magnet?</h1>
+    </header>
+    <div class="container">
+        <div class="content-box">
+            <h2>Create Your Lead Magnet Easily</h2>
+            <p><strong>Step#1:</strong> Open "Lead Magnet Ninja: @ <a href="https://chatgpt.com/g/g-67e993faa428819198ceeb33bae77371-lead-magnet-ninja" target="_blank">Lead Magnet Ninja GPT</a></p>
+            <p><strong>Step#2:</strong> Hit on "Enter in the URL to the affiliate offer page" Button</p>
+            <p><strong>Step#3:</strong> Paste the product Details and hit enter.</p>
+            <p><strong>Step#4:</strong> Paste this Prompt:</p>
+            <div id="promptToCopy" class="prompt-container">Frame this lead magnet as a free educational resource (like an “Ultimate Study Guide” that naturally introduces Knowledge Gap Finder at the end)</div>
+            <button id="copyBtn" class="copy-button">Copy Prompt</button>
+        </div>
+    </div>
+    <footer class="footer">
+      <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const copyButton = document.getElementById('copyBtn');
+        const promptTextContainer = document.getElementById('promptToCopy');
+
+        copyButton.addEventListener('click', () => {
+            // Use the container's innerText to get the text content
+            const textToCopy = promptTextContainer.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Success feedback
+                copyButton.innerText = 'Copied!';
+                setTimeout(() => {
+                    copyButton.innerText = 'Copy Prompt';
+                }, 2000); // Revert back after 2 seconds
+            }).catch(err => {
+                // Error feedback
+                console.error('Failed to copy: ', err);
+                copyButton.innerText = 'Copy Failed';
+                setTimeout(() => {
+                    copyButton.innerText = 'Copy Prompt';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
