@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Cover Prompt Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #1f2937;
+      --bg-gradient-end: #111827;
+      --card-bg: rgba(31, 41, 55, 0.5); /* Semi-transparent card background */
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #f9fafb;
+      --text-secondary: #d1d5db;
+      --text-heading: #ffffff;
+      --accent-primary: #22d3ee;
+      --accent-hover: #67e8f9;
+      --accent-success: #34d399;
+      --input-bg: #374151;
+      --code-bg: rgba(0, 0, 0, 0.3);
+      --shadow-color: rgba(0, 0, 0, 0.25);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); /* For Safari */
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    label {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-secondary);
+    }
+    textarea {
+        width: 100%;
+        min-height: 120px;
+        background-color: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        padding: 15px;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        color: var(--text-primary);
+        resize: vertical;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    textarea:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.3);
+    }
+    .prompts-container {
+      display: grid;
+      gap: 30px;
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+    }
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--bg-gradient-end);
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.05);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .copy-button .icon {
+      width: 16px;
+      height: 16px;
+    }
+    .copy-button .copied-icon {
+        display: none;
+    }
+    .copy-button.copied .copy-icon {
+        display: none;
+    }
+    .copy-button.copied .copied-icon {
+        display: inline-block;
+    }
+    .prompt-card {
+        display: flex;
+        flex-direction: column;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 15px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .card h2 {
+        font-size: 1.4rem;
+      }
+      .prompt-text {
+          font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Book Cover Prompt Generator</h1>
+      <p class="subtitle">Enter your image idea to generate tailored prompts for analysis and image creation.</p>
+    </header>
+
+    <main>
+      <div class="card">
+        <label for="imageIdeaInput">Enter Your Image Idea Here:</label>
+        <textarea id="imageIdeaInput" placeholder="e.g., A lone astronaut standing on a desolate red planet, looking at a distant, glowing nebula. The mood is hopeful yet isolated."></textarea>
+      </div>
+
+      <div class="prompts-container" id="promptsContainer">
+        <!-- Prompt 1 -->
+        <div class="card prompt-card">
+          <h2>Prompt 1: Ebook Analysis</h2>
+          <pre id="prompt1" class="prompt-text">I’m uploading my ebook manuscript. Please analyze it and:
+
+1, Detect the target audience based on its style, tone, and themes.
+2, Suggest a perfect cover page image idea that captures the main theme, mood, and emotions of the book.
+3, Describe the visual concept in detail, including imagery, colors, atmosphere, and artistic style.
+4, Suggest typography mood/placement that would fit the cover.
+
+Important: I’d like the cover style to be minimalist, realistic, and designed with a combination of soft but attracting colors.
+
+Do not create the image yet — just give me a clear, detailed concept for a professional book cover.</pre>
+          <button class="copy-button" data-target="prompt1">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+        <!-- Prompt 2 -->
+        <div class="card prompt-card">
+          <h2>Prompt 2: Image Generation (for Leonardo AI)</h2>
+          <pre id="prompt2" class="prompt-text"></pre>
+          <button class="copy-button" data-target="prompt2">
+            <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+            <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <span class="button-text">Copy Prompt</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const promptsContainer = document.getElementById('promptsContainer');
+      const imageIdeaInput = document.getElementById('imageIdeaInput');
+      const prompt2TextElement = document.getElementById('prompt2');
+
+      const prompt2TemplateStart = `For the image idea, given below, please give me an image-generation-ready version prompt (in or less than 1000 characters), in English, I can instantly feed it to the Leonardo AI image generator.
+
+Important: There'll be no Typography in the image to be generated as I'll add Typography manually.
+
+Here is the image idea:
+
+`;
+
+      // Function to update the second prompt
+      function updatePrompt2() {
+        const imageIdea = imageIdeaInput.value.trim();
+        if (imageIdea) {
+          prompt2TextElement.textContent = prompt2TemplateStart + imageIdea;
+        } else {
+          prompt2TextElement.textContent = prompt2TemplateStart + '[Image Idea]';
+        }
+      }
+
+      // Add event listener to the textarea
+      imageIdeaInput.addEventListener('input', updatePrompt2);
+      
+      // Initial call to set the prompt text on page load
+      updatePrompt2();
+
+      // Event delegation for the copy buttons
+      document.body.addEventListener('click', (event) => {
+        const button = event.target.closest('.copy-button');
+        if (!button) return;
+
+        const targetId = button.dataset.target;
+        const textToCopy = document.getElementById(targetId).textContent;
+        const buttonTextEl = button.querySelector('.button-text');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = buttonTextEl.textContent;
+          buttonTextEl.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            buttonTextEl.textContent = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+          alert('Failed to copy text. Please try again.');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
