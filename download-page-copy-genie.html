@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product Prompt Generator</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#1f2937; --bg2:#111827;
+      --card-bg: rgba(31,41,55,0.5);
+      --card-border: rgba(255,255,255,0.08);
+      --text:#f9fafb;
+      --muted:#d1d5db;
+      --accent:#22d3ee;
+      --accent-hover:#67e8f9;
+      --success:#34d399;
+      --input-bg:#374151;
+      --code-bg: rgba(0,0,0,0.28);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      padding:40px 20px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    .container{ width:100%; max-width:900px; }
+
+    header{ text-align:center; margin-bottom:34px; }
+    header h1{ font-size:2.4rem; font-weight:700; color:var(--text); letter-spacing:-0.6px }
+
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:14px;
+      padding:22px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+      margin-bottom:20px;
+    }
+
+    label{ display:block; font-weight:700; color:var(--muted); margin-bottom:8px }
+    .input-row{ display:flex; gap:16px; align-items:center; }
+    input[type="text"]{
+      flex:1;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid var(--card-border);
+      background:var(--input-bg);
+      color:var(--text);
+      font-size:1rem;
+    }
+    input[type="text"]:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 5px rgba(34,211,238,0.08) }
+
+    /* Output area */
+    .output-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
+    .output-header h2{ font-size:1.2rem; font-weight:700; color:var(--text); }
+
+    .code-output{
+      background:var(--code-bg);
+      border-radius:10px;
+      padding:18px;
+      font-family: 'Source Code Pro', monospace;
+      font-size:1rem;
+      color:var(--text);
+      white-space:pre-wrap;
+      word-wrap:break-word;
+      line-height:1.45;
+      border:1px solid var(--card-border);
+      min-height:140px;
+    }
+
+    /* Copy button */
+    .copy-button{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:8px;
+      background:var(--accent);
+      color:var(--bg2);
+      font-weight:700;
+      border:none;
+      cursor:pointer;
+      transition: transform .12s ease, background-color .12s ease;
+      user-select:none;
+    }
+    .copy-button:hover{ transform:scale(1.03); background:var(--accent-hover) }
+    .copy-button.copied{ background:var(--success); color:white }
+
+    .copy-button .icon{ width:16px; height:16px; display:inline-block }
+
+    /* Footer instructions row */
+    footer.footer-row{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding-top:18px;
+      border-top:1px solid var(--card-border);
+      color:var(--muted);
+      font-size:0.98rem;
+      line-height:1.5;
+    }
+    .instr-text{ line-height:1.5 }
+
+    /* Typography helper classes used inside generated prompt */
+    .line1{ font-size:28px; font-weight:700; text-align:center; display:block }
+    .line2{ font-size:20px; font-weight:700; text-align:center; display:block }
+    .line3{ font-size:20px; font-weight:700; text-align:center; display:block; text-decoration:underline; color:var(--accent); cursor:pointer }
+    .line4{ font-size:10px; font-weight:400; text-align:center; display:block; margin-top:10px }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Product Prompt Generator</h1>
+    </header>
+
+    <!-- Input -->
+    <div class="card">
+      <label for="productName">Enter Product Name</label>
+      <div class="input-row">
+        <input id="productName" type="text" placeholder="e.g., Premium Ebook" />
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div class="card">
+      <div class="output-header">
+        <h2>Generated Prompts</h2>
+        <button id="copyPromptBtn" class="copy-button">
+          <span class="btn-text">Copy Prompt</span>
+        </button>
+      </div>
+      <div id="generatedPrompt" class="code-output"></div>
+    </div>
+
+    <!-- Footer with Instructions -->
+    <footer class="footer-row">
+      <div id="instructions" class="instr-text">
+        <strong>Instructions:</strong><br>
+        1. Line1: Montserrat 28 Bold Center<br>
+        2. Line2: Montserrat 20 Bold Center<br>
+        3. Line3: Montserrat 20 Bold Center hyperlink<br>
+        4. Line4: Copyright © DigiMade.online. All Rights Reserved. Montserrat 10 Center
+      </div>
+      <button id="copyInstructionsBtn" class="copy-button">
+        <span class="btn-text">Copy Instructions</span>
+      </button>
+    </footer>
+  </div>
+
+  <script>
+    const productNameEl = document.getElementById('productName');
+    const generatedPromptEl = document.getElementById('generatedPrompt');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+    const copyInstructionsBtn = document.getElementById('copyInstructionsBtn');
+    const instructionsEl = document.getElementById('instructions');
+
+    function buildPromptHTML(productName) {
+      return (
+`Option 1 (Simple & Professional):
+<span class="line1">Thank you for purchasing ${escapeHtml(productName)}!</span>
+<span class="line2">Instructions:</span>
+<span class="line3">[Click here] to access your product.</span>
+
+Option 2 (For free downloads / interest-based leads):
+<span class="line1">Thank you for your interest in ${escapeHtml(productName)}!</span>
+<span class="line2">Instructions:</span>
+<span class="line3">[Click here] to access your product.</span>
+<span class="line4">Copyright © DigiMade.online. All Rights Reserved.</span>`
+      );
+    }
+
+    function buildPromptPlain(productName) {
+      return (
+`Option 1 (Simple & Professional):
+Thank you for purchasing ${productName}!
+Instructions:
+[Click here] to access your product.
+
+Option 2 (For free downloads / interest-based leads):
+Thank you for your interest in ${productName}!
+Instructions:
+[Click here] to access your product.
+
+Copyright © DigiMade.online. All Rights Reserved.`
+      );
+    }
+
+    function escapeHtml(unsafe) {
+      if (!unsafe) return '[Product Name]';
+      return unsafe.replace(/[&<>"']/g, m => (
+        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]
+      ));
+    }
+
+    function updatePreview() {
+      const val = productNameEl.value.trim() || '[Product Name]';
+      generatedPromptEl.innerHTML = buildPromptHTML(val);
+    }
+
+    function copyText(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btnText = button.querySelector('.btn-text');
+        const original = btnText.textContent;
+        button.classList.add('copied');
+        btnText.textContent = 'Copied!';
+        setTimeout(() => {
+          button.classList.remove('copied');
+          btnText.textContent = original;
+        }, 2000);
+      });
+    }
+
+    productNameEl.addEventListener('input', updatePreview);
+
+    copyPromptBtn.addEventListener('click', () => {
+      const plain = buildPromptPlain(productNameEl.value.trim() || '[Product Name]');
+      copyText(plain, copyPromptBtn);
+    });
+
+    copyInstructionsBtn.addEventListener('click', () => {
+      copyText(instructionsEl.innerText.trim(), copyInstructionsBtn);
+    });
+
+    updatePreview();
+  </script>
+</body>
+</html>
