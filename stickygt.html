@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sticky Google Translate Button - Code Snippets</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #212529;
+      --primary-color: #007bff;
+      --primary-hover: #0056b3;
+      --border-color: #dee2e6;
+      --code-bg: #282c34;
+      
+      /* Syntax Highlighting Colors */
+      --code-text: #abb2bf;
+      --code-comment: #5c6370;
+      --code-tag: #e06c75;      /* HTML tags */
+      --code-attr: #d19a66;     /* HTML attributes */
+      --code-string: #98c379;   /* HTML/JS strings */
+      --code-keyword: #c678dd;  /* JS keywords, CSS selectors */
+      --code-function: #61afef; /* JS function names, CSS properties */
+      --code-value: #d19a66;    /* CSS values */
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.7;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 1.5rem;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+    }
+    h1, h2 {
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    h1 { text-align: center; color: var(--text-color); }
+    h2 { color: var(--primary-color); }
+    p, li { margin-bottom: 1rem; color: #495057; }
+    
+    .code-section {
+      margin-bottom: 2.5rem;
+    }
+    pre {
+      background-color: var(--code-bg);
+      padding: 1.5rem;
+      /* MODIFIED: Rounded corners only on the top */
+      border-radius: 8px 8px 0 0; 
+      overflow-x: auto;
+      white-space: pre; 
+    }
+    pre code {
+      font-family: 'JetBrains Mono', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      font-size: 0.9em;
+      line-height: 1.8;
+      color: var(--code-text);
+    }
+
+    /* --- NEW BUTTON STYLES --- */
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      /* MODIFIED: Rounded corners only on the bottom */
+      border-radius: 0 0 8px 8px;
+      background-color: #3a404a; /* Darker grey to match code block */
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .copy-btn:hover {
+      background-color: #4a515c;
+    }
+    .copy-btn.copied {
+      background-color: #28a745;
+    }
+    
+    .summary {
+      background-color: #e9f3ff;
+      border-left: 5px solid var(--primary-color);
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+    }
+    .summary ol { padding-left: 1.5rem; }
+    .summary strong { color: var(--primary-hover); }
+
+    /* Syntax Highlighting Styles */
+    .tag { color: var(--code-tag); }
+    .attr { color: var(--code-attr); }
+    .string { color: var(--code-string); }
+    .comment { color: var(--code-comment); font-style: italic; }
+    .key { color: var(--code-keyword); }
+    .func { color: var(--code-function); }
+    .prop { color: var(--code-function); }
+    .val { color: var(--code-value); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Add a Sticky Translate Button to Your Website</h1>
+    <p>This guide provides the necessary HTML, CSS, and JavaScript to add a functional "Sticky Translate" button. This solution enables translation on user click and also via a special URL like <code>yourpage.html#googtrans(en|es)</code>.</p>
+    
+    <!-- Prerequisite Section -->
+    <div class="code-section">
+      <h2>Prerequisite: Font Awesome Icon Library</h2>
+      <p>Place this single line inside your <code>&lt;head&gt;</code> section. This is required for the icon on the button to appear.</p>
+      <pre><code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"</span><span class="tag">&gt;</span></code></pre>
+      <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copy Code</button>
+    </div>
+
+    <!-- HTML Section -->
+    <div class="code-section">
+      <h2>Part 1: HTML Code</h2>
+      <p>Place this code inside your <code>&lt;body&gt;</code> tag, preferably right after it opens.</p>
+      <pre><code><span class="comment">&lt;!-- The sticky button the user can click --&gt;</span>
+<span class="tag">&lt;button</span> <span class="attr">id</span>=<span class="string">"translate-btn"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;i</span> <span class="attr">class</span>=<span class="string">"fa-solid fa-language"</span><span class="tag">&gt;&lt;/i&gt;</span> Translate
+<span class="tag">&lt;/button&gt;</span>
+
+<span class="comment">&lt;!-- An empty div that Google Translate's script will use --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="string">"google_translate_element"</span><span class="tag">&gt;&lt;/div&gt;</span>
+</code></pre>
+      <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copy Code</button>
+    </div>
+
+    <!-- CSS Section -->
+    <div class="code-section">
+      <h2>Part 2: CSS Code</h2>
+      <p>Place this CSS inside a <code>&lt;style&gt;</code> tag in your <code>&lt;head&gt;</code> section.</p>
+      <pre><code><span class="comment">/* Prevents Google's top bar from pushing the page down */</span>
+<span class="key">html</span> {
+    <span class="prop">top</span>: <span class="val">0</span> <span class="key">!important</span>;
+}
+
+<span class="key">#translate-btn</span> {
+    <span class="prop">position</span>: <span class="val">fixed</span>;
+    <span class="prop">top</span>: <span class="val">50%</span>;
+    <span class="prop">right</span>: <span class="val">0</span>;
+    <span class="prop">transform</span>: <span class="func">translateY</span>(<span class="val">-50%</span>);
+    <span class="prop">z-index</span>: <span class="val">1001</span>;
+    <span class="prop">background-color</span>: <span class="val">#007bff</span>;
+    <span class="prop">color</span>: <span class="val">white</span>;
+    <span class="prop">writing-mode</span>: <span class="val">vertical-rl</span>;
+    <span class="prop">padding</span>: <span class="val">1.2rem 0.6rem</span>;
+    <span class="prop">border-radius</span>: <span class="val">10px 0 0 10px</span>;
+    <span class="prop">box-shadow</span>: <span class="val">-2px 2px 8px</span> <span class="func">rgba</span>(<span class="val">0,0,0,0.2</span>);
+    <span class="prop">font-weight</span>: <span class="val">600</span>;
+    <span class="prop">display</span>: <span class="val">flex</span>;
+    <span class="prop">align-items</span>: <span class="val">center</span>;
+    <span class="prop">gap</span>: <span class="val">0.5rem</span>;
+    <span class="prop">cursor</span>: <span class="val">pointer</span>;
+    <span class="prop">border</span>: <span class="val">none</span>;
+    <span class="prop">transition</span>: <span class="val">all 0.3s ease</span>;
+}
+
+<span class="key">#translate-btn:hover</span> {
+    <span class="prop">background-color</span>: <span class="val">#0056b3</span>;
+    <span class="prop">padding-right</span>: <span class="val">0.8rem</span>;
+}
+
+<span class="key">#translate-btn .fa-solid</span> {
+    <span class="prop">transform</span>: <span class="func">rotate</span>(<span class="val">90deg</span>);
+}
+
+<span class="comment">/* This is the container Google's script will use */</span>
+<span class="key">#google_translate_element</span> {
+    <span class="prop">display</span>: <span class="val">none</span>; 
+    <span class="prop">position</span>: <span class="val">fixed</span>;
+    <span class="prop">top</span>: <span class="val">1rem</span>;
+    <span class="prop">right</span>: <span class="val">1rem</span>;
+    <span class="prop">z-index</span>: <span class="val">1002</span>;
+}
+</code></pre>
+      <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copy Code</button>
+    </div>
+
+    <!-- JavaScript Section -->
+    <div class="code-section">
+      <h2>Part 3: JavaScript Code</h2>
+      <p>Place this script right before the closing <code>&lt;/body&gt;</code> tag.</p>
+      <pre><code><span class="tag">&lt;script&gt;</span>
+<span class="comment">// This function must be globally available for the Google script's callback</span>
+<span class="key">function</span> <span class="func">googleTranslateElementInit</span>() {
+  <span class="key">new</span> <span class="func">google.translate.TranslateElement</span>({<span class="attr">pageLanguage</span>: <span class="string">'en'</span>}, <span class="string">'google_translate_element'</span>);
+  
+  <span class="comment">// Show Google's widget and hide our custom button once initialized</span>
+  <span class="key">const</span> translateElement = document.<span class="func">getElementById</span>(<span class="string">'google_translate_element'</span>);
+  <span class="key">if</span> (translateElement) translateElement.style.<span class="prop">display</span> = <span class="string">'block'</span>;
+
+  <span class="key">const</span> customTranslateBtn = document.<span class="func">getElementById</span>(<span class="string">'translate-btn'</span>);
+  <span class="key">if</span> (customTranslateBtn) customTranslateBtn.style.<span class="prop">display</span> = <span class="string">'none'</span>;
+}
+
+<span class="comment">// This function dynamically loads the Google Translate script</span>
+<span class="key">function</span> <span class="func">activateGoogleTranslate</span>() {
+  <span class="comment">// Prevent loading the script multiple times</span>
+  <span class="key">if</span> (document.<span class="func">querySelector</span>(<span class="string">'script[src*="translate.google.com"]'</span>)) {
+    <span class="key">return</span>;
+  }
+  <span class="key">const</span> script = document.<span class="func">createElement</span>(<span class="string">'script'</span>);
+  script.<span class="prop">src</span> = <span class="string">"https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"</span>;
+  script.<span class="prop">async</span> = <span class="key">true</span>;
+  document.body.<span class="func">appendChild</span>(script);
+}
+
+<span class="comment">// Main logic runs after the page content has loaded</span>
+document.<span class="func">addEventListener</span>(<span class="string">"DOMContentLoaded"</span>, () => {
+    <span class="key">const</span> translateBtn = document.<span class="func">getElementById</span>(<span class="string">'translate-btn'</span>);
+
+    <span class="comment">// **This logic makes the URL work!**</span>
+    <span class="comment">// Check if the URL hash requests an automatic translation</span>
+    <span class="key">if</span> (window.location.hash.<span class="func">includes</span>(<span class="string">"#googtrans"</span>)) {
+        <span class="comment">// If yes, load the Google Translate script immediately.</span>
+        <span class="func">activateGoogleTranslate</span>();
+    } <span class="key">else</span> {
+        <span class="comment">// If no, and the button exists, set up the click listener for it.</span>
+        <span class="key">if</span> (translateBtn) {
+            translateBtn.<span class="func">addEventListener</span>(<span class="string">'click'</span>, activateGoogleTranslate);
+        }
+    }
+});
+<span class="tag">&lt;/script&gt;</span>
+</code></pre>
+      <button class="copy-btn"><i class="fa-solid fa-copy"></i> Copy Code</button>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="summary">
+      <h2>Summary: How to Use</h2>
+      <ol>
+        <li><strong>Add the Font Awesome Link:</strong> Copy the code from the <strong>Prerequisite</strong> step and paste it into your page's <code>&lt;head&gt;</code>.</li>
+        <li><strong>Add the HTML:</strong> Copy the code from <strong>Part 1</strong> and paste it into your page's <code>&lt;body&gt;</code>.</li>
+        <li><strong>Add the CSS:</strong> Copy the code from <strong>Part 2</strong> and place it inside a <code>&lt;style&gt;</code> tag within your page's <code>&lt;head&gt;</code>.</li>
+        <li><strong>Add the JavaScript:</strong> Copy the code from <strong>Part 3</strong> and paste it at the very bottom of your page, just before the closing <code>&lt;/body&gt;</code> tag.</li>
+      </ol>
+      <p>With these parts integrated, your website will have a professional sticky translate button and will support direct URL translation.</p>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for the "Copy Code" buttons on this helper page
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // UPDATED: Find the <pre> tag within the same parent .code-section
+        const pre = button.parentElement.querySelector('pre');
+        const code = pre.querySelector('code').innerText;
+        
+        navigator.clipboard.writeText(code).then(() => {
+          const originalText = button.innerHTML;
+          button.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
