@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Broadcast Your Email with Brevo — Responsive Guide</title>
+  <meta name="description" content="Instructional and strategic guide: how to broadcast email messages using Brevo (Sendinblue). Mobile responsive single-page HTML.">
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#0ea5a4;--accent-2:#7c3aed;--text:#e6eef6}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;line-height:1.5;background:linear-gradient(180deg,#071127 0%, #051627 100%);color:var(--text);padding:20px}
+    .container{max-width:980px;margin:0 auto}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 20px rgba(12,17,31,.6)}
+    h1{font-size:18px;margin:0}
+    .subtitle{color:var(--muted);font-size:13px}
+
+    main{display:grid;grid-template-columns:1fr;gap:18px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,.6);overflow:hidden}
+    h2{margin:0 0 8px 0;font-size:16px}
+    p{margin:0 0 12px 0;color:var(--text)}
+    .muted{color:var(--muted)}
+
+    /* Steps list */
+    ol.steps{counter-reset:step; padding-left:0;margin:0}
+    ol.steps li{list-style:none;padding:12px;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);margin-bottom:10px;display:flex;gap:12px;align-items:flex-start}
+    ol.steps li::before{counter-increment:step;content:counter(step);min-width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:600;color:#02121a}
+    code.kv{background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:6px;color:var(--accent);font-family:mono}
+
+    .two-col{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    .sidebar .card{position:sticky;top:18px}
+
+    /* Tables */
+    table{width:100%;border-collapse:collapse;margin-top:6px}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.04);text-align:left;font-size:14px}
+    th{color:var(--muted);font-weight:600}
+
+    ul.checklist{padding-left:18px;margin:8px 0}
+
+    /* Case study cards */
+    .case{border-left:4px solid rgba(255,255,255,0.04);padding-left:12px}
+
+    /* Footer */
+    footer{color:var(--muted);font-size:13px;padding:10px 0}
+
+    /* Responsive */
+    @media (max-width:880px){
+      .two-col{grid-template-columns:1fr}
+      .sidebar{order:2}
+      header{gap:10px}
+      .logo{width:48px;height:48px}
+    }
+
+    /* Buttons */
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;font-weight:600;text-decoration:none}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#02121a}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.04);color:var(--text);background:transparent}
+
+    /* Print friendly */
+    @media print{body{background:white;color:black} .card{box-shadow:none;background:white} .logo{display:none}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">BB</div>
+      <div>
+        <h1>Broadcast Your Email with Brevo — Instructional Guide</h1>
+        <div class="subtitle">Step-by-step setup, strategic tips, examples, checklists, and troubleshooting — fully responsive single-page HTML.</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="two-col">
+        <section class="card">
+          <h2>Introduction</h2>
+          <p class="muted">Broadcasting means sending a single message (newsletter, promo, announcement) to a list of subscribers at once. This guide walks you from setup to advanced strategies using Brevo (formerly Sendinblue).</p>
+
+          <h2>Part 1 — Getting Started with Brevo (Setup)</h2>
+          <ol class="steps">
+            <li>
+              <div>
+                <strong>Step 1: Create and verify your account.</strong>
+                <p class="muted">Go to brevo.com, sign up, confirm your email, and complete the business profile (name, website, contact).</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 2: Add and verify your domain (deliverability).</strong>
+                <p class="muted">In <code class="kv">Senders &amp; IPs &gt; Domains</code>, add your domain and follow DNS instructions to add <code class="kv">SPF</code>, <code class="kv">DKIM</code>, and optionally <code class="kv">DMARC</code> records. Wait for DNS to propagate and Brevo to verify.</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 3: Import your contacts.</strong>
+                <p class="muted">Go to <code class="kv">Contacts &gt; Import Contacts</code>. Upload CSV/Excel or paste data. Tag and segment contacts into lists (e.g., <em>Customers</em>, <em>Leads</em>, <em>Newsletter</em>).</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 4: Double-check compliance & preferences.</strong>
+                <p class="muted">Ensure consent records (GDPR) and unsubscribe links are present. Configure a default sender identity and proper physical address in account settings.</p>
+              </div>
+            </li>
+          </ol>
+
+          <h2>Part 2 — Create &amp; Broadcast an Email Campaign</h2>
+          <ol class="steps">
+            <li>
+              <div>
+                <strong>Step 1: Start a new campaign.</strong>
+                <p class="muted">Campaigns &gt; New Campaign. Enter an internal campaign name, Subject Line, From Name, and From Email.</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 2: Design the email.</strong>
+                <p class="muted">Choose Drag &amp; Drop Editor (recommended), Rich Text, or Custom HTML. Add logo, hero image, body content, and a clear primary CTA button.</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 3: Choose recipients.</strong>
+                <p class="muted">Select lists or segments. Use filters (e.g., subscribers who opened the last 2 campaigns) to target precisely.</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 4: Send or schedule.</strong>
+                <p class="muted">Send immediately, schedule for a future date &amp; time, or use Smart Send Time (if available) for optimized delivery per contact.</p>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <strong>Step 5: Confirm &amp; broadcast.</strong>
+                <p class="muted">Review settings and click <em>Send Campaign</em>. Use preview and send test emails before sending to your live list.</p>
+              </div>
+            </li>
+          </ol>
+
+          <h2>Part 3 — Real-World Use Cases &amp; Case Studies</h2>
+
+          <div class="case">
+            <h3>Case Study — Local Bakery (Weekly Newsletter)</h3>
+            <p class="muted">Goal: drive weekend foot traffic.</p>
+            <ul>
+              <li>Use Drag &amp; Drop template with images of pastries.</li>
+              <li>Segment: local subscribers within delivery radius.</li>
+              <li>Schedule: Fridays at 9:00 AM local time.</li>
+            </ul>
+            <p class="muted">Result: sustained +20% weekend visits (example outcome).</p>
+          </div>
+
+          <div class="case" style="margin-top:10px">
+            <h3>Case Study — E‑commerce (Flash Sale)</h3>
+            <p class="muted">Goal: boost short-term conversions.</p>
+            <ul>
+              <li>Craft urgent subject line (A/B test variations).</li>
+              <li>Send to recent purchasers and high-intent visitors only.</li>
+              <li>Include a single prominent CTA and countdown banner.</li>
+            </ul>
+            <p class="muted">Result: higher opens and conversion spike during sale window.</p>
+          </div>
+
+          <h2>Part 4 — Best Practices</h2>
+          <h3>Writing &amp; Design</h3>
+          <ul class="checklist">
+            <li>Subject lines under 50 characters when possible.</li>
+            <li>Use personalization tokens (e.g., first name).</li>
+            <li>One primary CTA — make it visually prominent.</li>
+            <li>Mobile-first layout: single column, touch-friendly buttons.</li>
+          </ul>
+
+          <h3>Deliverability</h3>
+          <ul class="checklist">
+            <li>Authenticate domain (SPF/DKIM/DMARC).</li>
+            <li>Warm new sending domains gradually.</li>
+            <li>Keep sender reputation by removing bounces and spam complaints.</li>
+          </ul>
+
+          <h3>Strategic Tips</h3>
+          <ul class="checklist">
+            <li>Beginners: send one monthly newsletter, optimize iteratively.</li>
+            <li>Growing teams: segment by purchase behavior and lifecycle stage.</li>
+            <li>Advanced: combine A/B testing, dynamic content, and automation workflows.</li>
+          </ul>
+
+          <h2>Part 5 — Troubleshooting</h2>
+          <table>
+            <thead>
+              <tr><th>Problem</th><th>Likely Cause</th><th>Solution</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Emails landing in spam</td><td>Domain not authenticated / poor sender reputation</td><td>Verify SPF/DKIM/DMARC; clean list; reduce spammy words</td></tr>
+              <tr><td>Low open rate</td><td>Weak subject line / poor timing</td><td>Use A/B subject tests; consider Smart Send Time</td></tr>
+              <tr><td>Contacts not receiving</td><td>Invalid or unsubscribed addresses</td><td>Clean and re-import valid contacts; check suppression list</td></tr>
+              <tr><td>Design broken on mobile</td><td>Complex multi-column layout</td><td>Use single-column mobile-first templates and preview/test</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Part 6 — Strategic Pre-Send Checklist</h2>
+          <ul class="checklist">
+            <li>Defined campaign goal (sales, engagement, awareness).</li>
+            <li>Compelling subject line &amp; preheader.</li>
+            <li>Correct recipient list &amp; segments.</li>
+            <li>One clear CTA and functioning links.</li>
+            <li>Tested preview and mobile layout.</li>
+            <li>Tracking enabled (UTM parameters / conversion tracking).</li>
+          </ul>
+
+        </section>
+
+        <aside class="sidebar">
+          <div class="card">
+            <h2>Quick Tips</h2>
+            <ul>
+              <li class="muted">Always send a test email to yourself and a colleague.</li>
+              <li class="muted">Use plain-text fallback for deliverability.</li>
+              <li class="muted">Enable click and open tracking to measure performance.</li>
+            </ul>
+
+            <h2 style="margin-top:12px">Example Subject Lines</h2>
+            <ul class="muted" style="padding-left:18px">
+              <li>"New: Summer pastries — try two for one this weekend"</li>
+              <li>"24-hour flash sale — 50% off everything"</li>
+              <li>"Your monthly product digest — top picks inside"</li>
+            </ul>
+
+            <h2 style="margin-top:12px">Metrics to track</h2>
+            <ul class="muted">
+              <li>Open rate</li>
+              <li>Click-through rate (CTR)</li>
+              <li>Conversion rate (sales / signups)</li>
+              <li>Bounce &amp; unsubscribe rates</li>
+            </ul>
+
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <a class="btn btn-primary" href="#intro">Read Guide</a>
+              <a class="btn btn-ghost" href="#">Print</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <section class="card">
+        <h2>Conclusion &amp; Next Steps</h2>
+        <p class="muted">Brevo makes broadcasting straightforward when you pair technical setup (domain authentication, list hygiene) with marketing best practices (targeting, personalization, testing). Start small, measure, iterate — then scale with segmentation and automation.</p>
+        <p class="muted">Use this page as a checklist each time you plan a broadcast. Export, print, or save the HTML for your team.</p>
+      </section>
+
+      <section class="card">
+        <h2>Appendix — Quick Reference</h2>
+        <h3>Minimum DNS records to add</h3>
+        <ul class="muted">
+          <li><strong>SPF:</strong> include Brevo's sending IPs (add as TXT record)</li>
+          <li><strong>DKIM:</strong> add the provided selector TXT record</li>
+          <li><strong>DMARC:</strong> optional but recommended for policy</li>
+        </ul>
+
+        <h3>Fast checklist to copy</h3>
+        <pre style="background:rgba(0,0,0,0.2);padding:10px;border-radius:8px;color:var(--text);font-family:monospace">
+1. Create account & verify email
+2. Authenticate domain (SPF/DKIM)
+3. Import & segment contacts
+4. Design + test email (mobile)
+5. Send test email
+6. Schedule or send
+7. Monitor metrics & iterate
+        </pre>
+      </section>
+
+    </main>
+
+    <footer>
+      <div class="muted">Generated guide • Use responsibly. This single-page HTML is mobile-responsive — save it as <code class="kv">brevo-broadcast-guide-responsive.html</code> and open in any browser.</div>
+    </footer>
+  </div>
+</body>
+</html>
