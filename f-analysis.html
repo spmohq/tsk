@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompts for Tool Analysis & Marketing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+      body { 
+          font-family: 'Inter', sans-serif; 
+          background-color: #f8f9fa; 
+      }
+      .prompt-card {
+          transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+          border-top: 4px solid transparent;
+      }
+      .prompt-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+          border-top-color: #4f46e5;
+      }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="py-16 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-3xl font-extrabold text-white leading-tight">
+            AI-Powered Prompts for Tool Analysis and Marketing
+        </h1>
+        <p class="mt-4 text-lg md:text-xl text-indigo-100 max-w-3xl mx-auto">
+            Use these prompts to understand your tools, identify your audience, and craft compelling marketing copy.
+        </p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-6 py-12">
+    <main id="prompts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        
+      <!-- PROMPT CARD 1 -->
+      <div class="prompt-card bg-white rounded-lg shadow-md flex flex-col">
+        <div class="p-6 flex-grow relative">
+          <div class="absolute top-4 right-4 bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-full">#1</div>
+          <p class="text-gray-700 leading-relaxed mt-4">
+            You are an AI assistant. Please analyze the attached HTML file (a web-based AI prompt generator) and answer the following:<br><br>
+            What does the generated prompt do?<br><br>
+            Who is the ideal user for this tool, and what purposes does it serve best?<br><br>
+            How should the answer/output of the generated prompt be used?
+          </p>
+        </div>
+        <div class="bg-gray-50/70 p-4 border-t border-gray-100">
+          <button onclick="copy(this, `You are an AI assistant. Please analyze the attached HTML file (a web-based AI prompt generator) and answer the following:\n\nWhat does the generated prompt do?\n\nWho is the ideal user for this tool, and what purposes does it serve best?\n\nHow should the answer/output of the generated prompt be used?`)" class="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-lg">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V16.5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 016 16.5v-3a.75.75 0 00-1.5 0v3A3 3 0 007.5 18h8a3 3 0 003-3V6.622a3 3 0 00-.879-2.121L14.5 1.378A3 3 0 0012.379 0H8.5A3 3 0 005.5 3v1.5a.75.75 0 001.5 0V3.5z" /><path d="M3 6.5A1.5 1.5 0 014.5 5h8A1.5 1.5 0 0114 6.5v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14.5v-8z" /></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PROMPT CARD 2 -->
+      <div class="prompt-card bg-white rounded-lg shadow-md flex flex-col">
+        <div class="p-6 flex-grow relative">
+          <div class="absolute top-4 right-4 bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-full">#2</div>
+          <p class="text-gray-700 leading-relaxed mt-4">
+            Does this prompt-chain help students to realize where they have knowledge gap to understand the text?
+          </p>
+        </div>
+        <div class="bg-gray-50/70 p-4 border-t border-gray-100">
+          <button onclick="copy(this, `Does this prompt-chain help students to realize where they have knowledge gap to understand the text?`)" class="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-lg">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V16.5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 016 16.5v-3a.75.75 0 00-1.5 0v3A3 3 0 007.5 18h8a3 3 0 003-3V6.622a3 3 0 00-.879-2.121L14.5 1.378A3 3 0 0012.379 0H8.5A3 3 0 005.5 3v1.5a.75.75 0 001.5 0V3.5z" /><path d="M3 6.5A1.5 1.5 0 014.5 5h8A1.5 1.5 0 0114 6.5v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14.5v-8z" /></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PROMPT CARD 3 -->
+      <div class="prompt-card bg-white rounded-lg shadow-md flex flex-col">
+        <div class="p-6 flex-grow relative">
+          <div class="absolute top-4 right-4 bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-full">#3</div>
+          <p class="text-gray-700 leading-relaxed mt-4">
+            I created this page just to help Students Spot Knowledge Gaps. Based on this perspective, provide:<br><br>
+            A catchy and appropriate name (max 55 characters).<br><br>
+            A bullet list of all the features of this tool.<br><br>
+            A bullet list of all the benefits of this tool.
+          </p>
+        </div>
+        <div class="bg-gray-50/70 p-4 border-t border-gray-100">
+          <button onclick="copy(this, `I created this page just to help Students Spot Knowledge Gaps. Based on this perspective, provide:\n\nA catchy and appropriate name (max 55 characters).\n\nA bullet list of all the features of this tool.\n\nA bullet list of all the benefits of this tool.`)" class="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-lg">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V16.5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 016 16.5v-3a.75.75 0 00-1.5 0v3A3 3 0 007.5 18h8a3 3 0 003-3V6.622a3 3 0 00-.879-2.121L14.5 1.378A3 3 0 0012.379 0H8.5A3 3 0 005.5 3v1.5a.75.75 0 001.5 0V3.5z" /><path d="M3 6.5A1.5 1.5 0 014.5 5h8A1.5 1.5 0 0114 6.5v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14.5v-8z" /></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PROMPT CARD 4 -->
+      <div class="prompt-card bg-white rounded-lg shadow-md flex flex-col">
+        <div class="p-6 flex-grow relative">
+          <div class="absolute top-4 right-4 bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-full">#4</div>
+          <p class="text-gray-700 leading-relaxed mt-4">
+            You are an expert copywriter specializing in high-converting product descriptions.<br><br>
+            <b>Task:</b> Based on your last answer, create three variations of sales copy for this web-based AI prompt generator:<br><br>
+            <b>Tagline (under 12 words):</b> Punchy, memorable, and benefit-driven.<br><br>
+            <b>Short pitch (around 100 words):</b> Compelling copy suitable for social posts or app store listings.<br><br>
+            <b>Full description (250–300 words):</b> Persuasive landing page copy highlighting features, benefits, and ideal use cases.
+          </p>
+        </div>
+        <div class="bg-gray-50/70 p-4 border-t border-gray-100">
+          <button onclick="copy(this, `You are an expert copywriter specializing in high-converting product descriptions.\n\nTask: Based on your last answer, create three variations of sales copy for this web-based AI prompt generator:\n\nTagline (under 12 words): Punchy, memorable, and benefit-driven.\n\nShort pitch (around 100 words): Compelling copy suitable for social posts or app store listings.\n\nFull description (250–300 words): Persuasive landing page copy highlighting features, benefits, and ideal use cases.`)" class="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 hover:shadow-lg">
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V16.5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 016 16.5v-3a.75.75 0 00-1.5 0v3A3 3 0 007.5 18h8a3 3 0 003-3V6.622a3 3 0 00-.879-2.121L14.5 1.378A3 3 0 0012.379 0H8.5A3 3 0 005.5 3v1.5a.75.75 0 001.5 0V3.5z" /><path d="M3 6.5A1.5 1.5 0 014.5 5h8A1.5 1.5 0 0114 6.5v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14.5v-8z" /></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="text-center py-8 text-gray-600 text-sm">
+    <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> DigiMade.online. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // --- Copy Button Functionality ---
+    const copy = (btn, text) => {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = `
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z" clip-rule="evenodd" /></svg>
+          <span>Copied!</span>`;
+        btn.classList.replace('bg-indigo-600', 'bg-green-500');
+        setTimeout(() => {
+          btn.innerHTML = `
+            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V16.5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 016 16.5v-3a.75.75 0 00-1.5 0v3A3 3 0 007.5 18h8a3 3 0 003-3V6.622a3 3 0 00-.879-2.121L14.5 1.378A3 3 0 0012.379 0H8.5A3 3 0 005.5 3v1.5a.75.75 0 001.5 0V3.5z" /><path d="M3 6.5A1.5 1.5 0 014.5 5h8A1.5 1.5 0 0114 6.5v8a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 013 14.5v-8z" /></svg>
+            <span>Copy Prompt</span>`;
+          btn.classList.replace('bg-green-500', 'bg-indigo-600');
+        }, 2000);
+      });
+    };
+
+    // --- Page Protection Script ---
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    document.addEventListener('keydown', function (e) {
+      // Disable F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+      if (e.keyCode == 123) e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) e.preventDefault();
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) e.preventDefault();
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) e.preventDefault();
+      // NOTE: Ctrl+C / Ctrl+A are allowed so the copy buttons work
+    });
+  </script>
+</body>
+</html>
