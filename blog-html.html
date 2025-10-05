@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real-Time Prompt & Snippet Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-start: #1f2937;
+      --bg-gradient-end: #111827;
+      --card-bg: rgba(31, 41, 55, 0.5);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #f9fafb;
+      --text-secondary: #d1d5db;
+      --text-heading: #ffffff;
+      --accent-primary: #22d3ee;
+      --accent-hover: #67e8f9;
+      --accent-success: #34d399;
+      --input-bg: #374151;
+      --code-bg: rgba(0, 0, 0, 0.3);
+      --shadow-color: rgba(0, 0, 0, 0.25);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      max-width: 850px;
+      width: 100%;
+      margin: 0 auto;
+      flex-grow: 1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .generator-card, .prompt-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 var(--shadow-color);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+    .generator-card {
+        margin-bottom: 40px;
+    }
+    .prompt-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .prompt-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px 0 var(--shadow-color);
+    }
+    .prompt-card h2, .generator-card h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--input-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+        font-family: 'Source Code Pro', monospace;
+    }
+    .outputs-container {
+      display: grid;
+      gap: 30px;
+    }
+    .prompt-text {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Source Code Pro', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-weight: 400;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+      min-height: 100px;
+    }
+    .copy-button {
+      align-self: flex-end;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--bg-gradient-end);
+      background-color: var(--accent-primary);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .copy-button:hover {
+      background-color: var(--accent-hover);
+      transform: scale(1.05);
+    }
+    .copy-button.copied {
+      background-color: var(--accent-success);
+    }
+    .copy-button .icon { width: 16px; height: 16px; }
+    .copy-button .copied-icon { display: none; }
+    .copy-button.copied .copy-icon { display: none; }
+    .copy-button.copied .copied-icon { display: inline-block; }
+    footer {
+        text-align: center;
+        margin-top: 50px;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+    @media (max-width: 600px) {
+      body { padding: 20px 15px; }
+      h1 { font-size: 2rem; }
+      .prompt-card h2, .generator-card h2 { font-size: 1.4rem; }
+      .prompt-text { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Real-Time Prompt & Snippet Generator</h1>
+      <p class="subtitle">Snippets below will update automatically as you type.</p>
+    </header>
+
+    <main>
+      <div class="generator-card">
+        <h2>Inputs</h2>
+        <div class="form-group">
+          <label for="promptNumber">Prompt Number</label>
+          <input type="number" id="promptNumber" value="1" placeholder="e.g., 1">
+        </div>
+        <div class="form-group">
+          <label for="promptText">Prompt Text (in English)</label>
+          <textarea id="promptText" placeholder="Start typing your prompt text here..."></textarea>
+        </div>
+      </div>
+
+      <div class="outputs-container" id="outputsContainer">
+        <!-- Generated snippets will appear here in real-time -->
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+      <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const promptNumberInput = document.getElementById('promptNumber');
+      const promptTextInput = document.getElementById('promptText');
+      const outputsContainer = document.getElementById('outputsContainer');
+
+      // --- Central function to generate and display snippets ---
+      function generateSnippets() {
+        const promptNumber = promptNumberInput.value;
+        const promptText = promptTextInput.value;
+
+        // --- Template Snippets ---
+        const templates = {
+          promptBox: `<!-- START: PROMPT BOX #${promptNumber} -->
+<h3>ChatGPT প্রম্পট টেমপ্লেট #${promptNumber}</h3>
+<div style="position: relative; margin-bottom: 1.5em; border: 1px solid #ddd; border-radius: 8px; background-color: #f3f3f3;">
+  <button onclick="copyPrompt('promptText${promptNumber}', this)" style="position: absolute; top: 12px; right: 12px; background-color: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-family: sans-serif; font-size: 13px; font-weight: bold; transition: background-color 0.2s ease;">
+    Copy Prompt
+  </button>
+  <pre style="padding: 20px; padding-top: 50px; margin: 0; font-family: monospace; white-space: pre-wrap; word-wrap: break-word;">
+<code id="promptText${promptNumber}">${promptText}</code></pre>
+</div>
+<!-- END: PROMPT BOX #${promptNumber} -->`,
+          promptJS: `<!-- 1. SCRIPT FOR COPY BUTTON (Included once per post, handles all buttons) -->
+<script>
+function copyPrompt(elementId, buttonElement) {
+  const codeElement = document.getElementById(elementId);
+  if (!codeElement) return;
+  const textToCopy = codeElement.innerText;
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    const originalText = buttonElement.innerText;
+    buttonElement.innerText = 'Copied!';
+    buttonElement.style.backgroundColor = '#198754';
+    setTimeout(() => {
+      buttonElement.innerText = originalText;
+      buttonElement.style.backgroundColor = '#6c757d';
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+  });
+}
+<\/script>`,
+          space30: `<div style="padding-bottom: 30px;"></div>`,
+          space10: `<div style="padding-bottom: 10px;"></div>`,
+          blockquote: `<blockquote></blockquote>`,
+          blockquoteStyled: `<blockquote style="background-color: #e6f4ea; padding: 20px; border-left: 5px solid #81c784; border-radius: 6px; font-size: 16px; line-height: 1.6; margin: 20px 0;">
+</blockquote>`,
+          whatsappSupport: `<!-- 5. WHATSAPP SUPPORT BOX -->
+<div style="margin-top: 50px; padding: 25px; background-color: #f7fafc; border-top: 3px solid #22c55e; border-radius: 8px; text-align: center;">
+  <p style="font-size: 16px; color: #4a5568; margin-top: 0; margin-bottom: 25px;">কোনও সমস্যা হচ্ছে? কোনও প্রশ্ন আছে? হেল্প পেতে সরাসরি যোগাযোগ করতে চান? আমাদের সাপোর্ট টিমের সঙ্গে WhatsApp-এ সরাসরি যোগাযোগ করতে এই বোতামে ক্লিক করুন 👇</p>
+  <button onclick="var p='919883787947',m=encodeURIComponent('Re: Support'),a='whatsapp://send?phone='+p+'&amp;text='+m,w='https://wa.me/'+p+'?text='+m;window.location.href=a;setTimeout(function(){window.open(w,'_blank')},1500);" onmouseout="this.style.backgroundColor='#22c55e'" onmouseover="this.style.backgroundColor='#16a34a'" style="background-color: #22c55e; color: white; padding: 12px 24px; border: none; border-radius: 9999px; cursor: pointer; font-size: 16px; font-weight: 600; display: inline-flex; align-items: center; transition: background-color 0.3s;"><span style="margin-right: 8px; font-size: 20px; line-height: 1;">💬</span> WhatsApp Support</button>
+</div>
+<!-- End of Support Content -->`
+        };
+
+        outputsContainer.innerHTML = `
+          ${createCard('1: Prompt Box', 'outputPromptBox', templates.promptBox)}
+          ${createCard('2: Prompt Box JS (Once per post)', 'outputJs', templates.promptJS)}
+          ${createCard('3: 30px Spacer', 'outputSpace30', templates.space30)}
+          ${createCard('4: 10px Spacer', 'outputSpace10', templates.space10)}
+          ${createCard('5: Basic Blockquote', 'outputBlockquote', templates.blockquote)}
+          ${createCard('6: Styled Blockquote', 'outputBlockquoteStyled', templates.blockquoteStyled)}
+          ${createCard('7: WhatsApp Support Box', 'outputWhatsapp', templates.whatsappSupport)}
+        `;
+      }
+
+      function createCard(title, id, content) {
+        const escapedContent = content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return `
+          <div class="prompt-card">
+            <h2>${title}</h2>
+            <pre id="${id}" class="prompt-text">${escapedContent}</pre>
+            <button class="copy-button" data-target="${id}">
+              <svg class="icon copy-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" /></svg>
+              <svg class="icon copied-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+              <span class="button-text">Copy Code</span>
+            </button>
+          </div>
+        `;
+      }
+
+      // --- Event Listeners for real-time updates ---
+      promptNumberInput.addEventListener('input', generateSnippets);
+      promptTextInput.addEventListener('input', generateSnippets);
+
+      // --- Initial call to populate the view on page load ---
+      generateSnippets();
+
+      // --- Event delegation for all copy buttons ---
+      document.body.addEventListener('click', (event) => {
+        const button = event.target.closest('.copy-button');
+        if (!button) return;
+
+        const targetId = button.dataset.target;
+        const textToCopy = document.getElementById(targetId).innerText;
+        const buttonTextEl = button.querySelector('.button-text');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = buttonTextEl.textContent;
+          buttonTextEl.textContent = 'Copied!';
+          button.classList.add('copied');
+          
+          setTimeout(() => {
+            buttonTextEl.textContent = originalText;
+            button.classList.remove('copied');
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text: ', err);
+          alert('Failed to copy text. Please try again.');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
